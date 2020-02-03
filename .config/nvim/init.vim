@@ -5,19 +5,21 @@ Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'morhetz/gruvbox'
-Plug '/usr/local/opt/fzf'
+Plug '~/.fzf'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-Plug 'jiangmiao/auto-pairs'
 call plug#end()
 
 " === AIR LINE CONFIG ===
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 " === SCALA CONFIG ===
 au BufRead,BufNewFile *.sbt set filetype=scala
+
+autocmd FileType scala let b:coc_root_patterns = ['build.sbt']
 
 " === coc.nvim CONFIG ===
 
@@ -40,7 +42,7 @@ set cmdheight=2
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation) " Not yet implemented by metals
+nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K for show documentation in preview window
@@ -91,7 +93,7 @@ inoremap <silent><expr> <Tab>
 "
 " Open nerdtree if opening vim to a directory
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | wincmd l | endif
 
 " Slightly wider than default
 :let g:NERDTreeWinSize=50
@@ -100,6 +102,7 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " fuzzy finder with ctrl-p
 nnoremap <C-p> :FZF<CR>
+let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
 
 " === NAVIGATION CONFIG ===
 
@@ -126,7 +129,7 @@ set showmatch
 
 set backspace=indent,eol,start
 
-set clipboard=unnamed
+set clipboard+=unnamedplus
 
 " Disable the mouse
 set mouse=""
@@ -153,6 +156,7 @@ syntax on
 
 colorscheme gruvbox
 let g:gruvbox_contrast_dark='soft'
+set background=dark
 
 "set termguicolors
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -160,6 +164,7 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 " === FILE CONFIG ===
 
 autocmd BufNewFile,BufRead *.json setlocal tabstop=2 shiftwidth=2 softtabstop=2
+autocmd BufRead,BufNewFile *.conf setf dosini
 
 "File type specific formatting
 autocmd Filetype html setlocal ts=2 sw=2 expandtab
@@ -169,3 +174,6 @@ autocmd Filetype php setlocal ts=2 sw=2 expandtab
 autocmd Filetype cpp setlocal ts=2 sw=2 cindent expandtab
 autocmd FileType python set ts=4 sts=4 sw=4
 autocmd FileType json set ts=2 sts=2 sw=2
+autocmd FileType java set ts=2 sts=2 sw=2
+
+filetype plugin indent on
