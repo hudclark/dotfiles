@@ -5,15 +5,14 @@ Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'morhetz/gruvbox'
-Plug '~/.fzf'
+Plug '/usr/bin/fzf'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 call plug#end()
 
-" === AIR LINE CONFIG ===
-let g:airline#extensions#tabline#enabled = 1
+" === AIR LINE CONFIG === let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 " === SCALA CONFIG ===
@@ -156,6 +155,7 @@ syntax on
 
 colorscheme gruvbox
 let g:gruvbox_contrast_dark='soft'
+let g:gruvbox_contrast_light='hard'
 set background=dark
 
 "set termguicolors
@@ -165,6 +165,9 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 autocmd BufNewFile,BufRead *.json setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd BufRead,BufNewFile *.conf setf dosini
+au BufRead,BufNewFile *.avsc set filetype=json
+au BufRead,BufNewFile *.schema set filetype=json
+au BufRead,BufNewFile *.proto setfiletype proto
 
 "File type specific formatting
 autocmd Filetype html setlocal ts=2 sw=2 expandtab
@@ -174,6 +177,9 @@ autocmd Filetype php setlocal ts=2 sw=2 expandtab
 autocmd Filetype cpp setlocal ts=2 sw=2 cindent expandtab
 autocmd FileType python set ts=4 sts=4 sw=4
 autocmd FileType json set ts=2 sts=2 sw=2
-autocmd FileType java set ts=2 sts=2 sw=2
+autocmd FileType java set ts=2 sts=2 sw=2 expandtab
+autocmd FileType proto set ts=4 sts=4 sw=4
 
 filetype plugin indent on
+
+nnoremap * *``
